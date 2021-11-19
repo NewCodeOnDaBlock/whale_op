@@ -173,8 +173,6 @@ const Dashboard = (props) => {
                                         <button style='background-color: #0096c7'>Go To Tweet
                                         </button> 
                                         </a>`
-
-
             }
         })
     }, [socket])
@@ -400,7 +398,7 @@ const Dashboard = (props) => {
 
                                 coin.item.id ?
                                     <div id="trending-coin">
-                                        <img src={coin.item.small} />
+                                        <img src={coin.item.small} alt={coin.item.id} />
                                         <p>{coin.item.id}</p>
                                     </div>
                                     : <p>Loading...</p>
