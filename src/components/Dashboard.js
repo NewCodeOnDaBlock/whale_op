@@ -20,7 +20,7 @@ const Dashboard = (props) => {
     const [chatinput, setChatinput] = useState("");
     const [messages, setMessages] = useState([]);
     const [tweeterror, setTweetError] = useState("");
-    const [toptrendinglist, setTopTrendingList] = useState([{}]);
+    const [toptrendinglist, setTopTrendingList] = useState([]);
     // const [timeframe, setTimeframe] = useState("1h");
 
 
@@ -38,8 +38,8 @@ const Dashboard = (props) => {
     ws.onmessage = (e) => {
 
         let coinObject = JSON.parse(e.data);
-        let btcprice = parseFloat(coinObject.p).toFixed(2);
-        document.querySelector("#btc-ticker").innerText = "$" + btcprice;
+        let btcprice = parseFloat(coinObject.p).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+        document.querySelector("#btc-ticker").innerText = btcprice;
         document.querySelector("#btc-ticker").style.color = !lastbtcPrice || lastbtcPrice === btcprice ? 'white' : btcprice > lastbtcPrice ? 'green' : 'red';
         lastbtcPrice = btcprice;
     }
@@ -47,8 +47,8 @@ const Dashboard = (props) => {
     ethws.onmessage = (e) => {
 
         let coinObjecteth = JSON.parse(e.data);
-        let ethprice = parseFloat(coinObjecteth.p).toFixed(2);
-        document.querySelector("#eth-ticker").innerText = "$" + ethprice;
+        let ethprice = parseFloat(coinObjecteth.p).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+        document.querySelector("#eth-ticker").innerText = ethprice;
         document.querySelector("#eth-ticker").style.color = !lastethPrice || lastethPrice === ethprice ? 'white' : ethprice > lastethPrice ? 'green' : 'red';
         lastethPrice = ethprice;
     }
@@ -56,9 +56,9 @@ const Dashboard = (props) => {
     solws.onmessage = (e) => {
 
         let coinObjectsol = JSON.parse(e.data);
-        let solprice = parseFloat(coinObjectsol.p).toFixed(2);
+        let solprice = parseFloat(coinObjectsol.p).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
         // console.log(coinObjectsol)
-        document.querySelector("#sol-ticker").innerText = "$" + solprice;
+        document.querySelector("#sol-ticker").innerText = solprice;
         document.querySelector("#sol-ticker").style.color = !lastsolPrice || lastsolPrice === solprice ? 'white' : solprice > lastsolPrice ? 'green' : 'red';
         lastsolPrice = solprice;
 
@@ -67,9 +67,9 @@ const Dashboard = (props) => {
     shibws.onmessage = (e) => {
 
         let coinObjectshib = JSON.parse(e.data);
-        let shibprice = parseFloat(coinObjectshib.p);
+        let shibprice = parseFloat(coinObjectshib.p).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 8 });
         // console.log(coinObjectshib)
-        document.querySelector("#shib-ticker").innerText = "$" + shibprice;
+        document.querySelector("#shib-ticker").innerText = shibprice;
         document.querySelector("#shib-ticker").style.color = !lastshibPrice || lastshibPrice === shibprice ? 'white' : shibprice > lastshibPrice ? 'green' : 'red';
         lastshibPrice = shibprice;
 
@@ -78,9 +78,9 @@ const Dashboard = (props) => {
     manaws.onmessage = (e) => {
 
         let coinObjectmana = JSON.parse(e.data);
-        let manaprice = parseFloat(coinObjectmana.p);
+        let manaprice = parseFloat(coinObjectmana.p).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 4 });
         // console.log(coinObjectmana)
-        document.querySelector("#mana-ticker").innerText = "$" + manaprice;
+        document.querySelector("#mana-ticker").innerText = manaprice;
         document.querySelector("#mana-ticker").style.color = !lastmanaPrice || lastmanaPrice === manaprice ? 'white' : manaprice > lastmanaPrice ? 'green' : 'red';
         lastmanaPrice = manaprice;
     }
@@ -163,17 +163,18 @@ const Dashboard = (props) => {
                     text: tweet.data.text
                 }
                 const tweetElement = document.querySelector("#twitter-box");
+
                 tweetElement.innerHTML = `<div class="card-body">
-                                            <h5>${tweetData.text}</h5>
-                                            <h6>${tweetData.username}</h6>
-                                    </div>
-                                    
-                                    <a style='width: 100%' href="https://twitter.com/${tweetData.username}/status/${tweetData.id}">
-                                    <button style='background-color: #0096c7'>Go To Tweet
-                                    </button> 
-                                    </a>
-                                    
-                                    `
+                                                <h5>${tweetData.text}</h5>
+                                                <h6>${tweetData.username}</h6>
+                                        </div>
+                                        
+                                        <a style='width: 100%' href="https://twitter.com/${tweetData.username}/status/${tweetData.id}">
+                                        <button style='background-color: #0096c7'>Go To Tweet
+                                        </button> 
+                                        </a>`
+
+
             }
         })
     }, [socket])
@@ -263,6 +264,7 @@ const Dashboard = (props) => {
                 <div id="dashboard-left">
                     <h3 style={{ color: 'white' }}>Real Time News</h3>
                     <div id="twitter-box">
+
 
                     </div>
 
@@ -388,23 +390,25 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div id="footer-container">
+                <div>
+                    <h4>See What's Trending!</h4>
+                </div>
+                <div id="trending-container">
+                    {
+                        toptrendinglist ?
+                            toptrendinglist.map((coin, index) => (
 
+                                coin.item.id ?
+                                    <div id="trending-coin">
+                                        <img src={coin.item.small} />
+                                        <p>{coin.item.id}</p>
+                                    </div>
+                                    : <p>Loading...</p>
+                            ))
+                            : <p>Loading...</p>
+                    }
 
-
-                {/* {
-                    toptrendinglist ?
-                        toptrendinglist.map((coin, i) => {
-
-                            console.log(coin.item)
-                            return <p key={i}>{coin.item}</p>
-                        })
-                        : <p>Loading trending coins...</p>
-                } */}
-
-
-
-                {/* {JSON.stringify(toptrendinglist.item)} */}
-
+                </div>
             </div>
         </div>
     )
