@@ -24,22 +24,27 @@ const Dashboard = (props) => {
     // const [timeframe, setTimeframe] = useState("1h");
 
 
-    let ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
+    let ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade'); // creating incstance objects of Websocket 
     let ethws = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@trade');
     let solws = new WebSocket('wss://stream.binance.com:9443/ws/solusdt@trade');
     let shibws = new WebSocket('wss://stream.binance.com:9443/ws/shibusdt@trade');
     let manaws = new WebSocket('wss://stream.binance.com:9443/ws/manausdt@trade');
-    let lastbtcPrice = null;
+    let lastbtcPrice = null; // sets a comparison again current price in websocket function
     let lastethPrice = null;
     let lastsolPrice = null;
     let lastshibPrice = null;
     let lastmanaPrice = null;
 
+    // WEBSOCKET VS SOCKET IO
+    // WEBSOCKET IS THE PROTOCOL THE ESTABLISHES THE CONNECTION BETWEEN CLIENT SERVER
+    // SOCKET IO IS A LIBARY THAT UTILIZES WEBSOCKET BUT IS MORE VERSITILE
+    // SOCKET IO SUPPORTS BROADCASTING WHERE AS WEBSOCKKET DOES NOT
+
     ws.onmessage = (e) => {
 
-        let coinObject = JSON.parse(e.data);
-        let btcprice = parseFloat(coinObject.p).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-        document.querySelector("#btc-ticker").innerText = btcprice;
+        let coinObject = JSON.parse(e.data); // JSON.parse allows the data to become a js object 
+        let btcprice = parseFloat(coinObject.p).toLocaleString('en-US', { style: 'currency', currency: 'USD' })// grabs the key of object and parses it into a floating point integer
+        document.querySelector("#btc-ticker").innerText = btcprice; // if last price is not null or equals current price set to white, else if price is greater than null set to gree else red
         document.querySelector("#btc-ticker").style.color = !lastbtcPrice || lastbtcPrice === btcprice ? 'white' : btcprice > lastbtcPrice ? 'green' : 'red';
         lastbtcPrice = btcprice;
     }
@@ -139,7 +144,7 @@ const Dashboard = (props) => {
     }
 
 
-    useEffect(() => {
+    useEffect(() => { // this solidifies the socket io connection between the client and server 
         console.log("chat front end is connected!")
         socket.on('post msg', msg => {
             setMessages(previousmessages => { return [...previousmessages, msg] })
@@ -151,13 +156,13 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         console.log("twitter socket front end is connected!")
-        socket.on('tweet', (tweet) => {
+        socket.on('tweet', (tweet) => { // this talks to the back end server emit call and turns on
             // console.log(tweet);
             if (!tweet) {
                 setTweetError("Loading Real Time Tweets..")
             } else {
 
-                const tweetData = {
+                const tweetData = { 
                     id: tweet.data.id,
                     username: `@${tweet.includes.users[0].username}`,
                     text: tweet.data.text
@@ -192,7 +197,7 @@ const Dashboard = (props) => {
             setMessageerror("Message is required!");
         } else {
 
-            socket.emit('chatmessage', chatinput)
+            socket.emit('chatmessage', chatinput) // calling 'chatmessage' from server and emitting the event
             document.querySelector("#initialchatmesage").style.display = "none";
             setChatinput("");
             setMessageerror("");
