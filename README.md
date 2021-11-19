@@ -1,3 +1,27 @@
+#description
+
+
+This application offers a simple cryptocurrency tracking ability with live features to simple gauge sentiment of overall market.
+
+It offers the user easily displayed price action from the top trending coins by market cap.
+
+The application also offers real time live tweet updates from Twitters stream API. Giving the user the ability to see what asset other people are talking about.
+
+With this, the application does offer a real time chat feature on the same dash board. This gives the user the overall ability to gauge the market and chat with others in the overall cryptocurrency community. 
+
+A user also has the ability to check its 24hr average to easily get a glimpse of how a certain asset has performed recently. 
+
+In addition, the user also has the ability to take a look at a detailed price action chart. Utilizing the 1day, 7day, 14day, 30day, and year. Which can provide the user an overall glimpse of performance for decision making purposes.
+
+Last but not least, the application shares a simple top trending coin list the updates in real time.
+
+
+
+
+======================================================================================
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
