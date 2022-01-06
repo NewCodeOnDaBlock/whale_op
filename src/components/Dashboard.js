@@ -29,7 +29,7 @@ const Dashboard = (props) => {
     let solws = new WebSocket('wss://stream.binance.com:9443/ws/solusdt@trade');
     let shibws = new WebSocket('wss://stream.binance.com:9443/ws/shibusdt@trade');
     let manaws = new WebSocket('wss://stream.binance.com:9443/ws/manausdt@trade');
-    let lastbtcPrice = null; // sets a comparison again current price in websocket function
+    let lastbtcPrice = null; // sets a comparison against current price in websocket function
     let lastethPrice = null;
     let lastsolPrice = null;
     let lastshibPrice = null;
