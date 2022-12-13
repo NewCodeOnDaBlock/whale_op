@@ -6,6 +6,7 @@ import axios from 'axios';
 import 'chartjs-adapter-date-fns';
 
 
+
 const CryptoChart2 = ({ data }) => {
 
     const { id } = useParams();
@@ -93,7 +94,9 @@ const CryptoChart2 = ({ data }) => {
                             },
                             distribution: 'linear',
                         },
-                        y: [],
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }}
             />

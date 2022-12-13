@@ -210,7 +210,7 @@ const Dashboard = (props) => {
         <div>
             <div id="nav-bar-container">
                 <div id="navbar-left">
-                    <img src={logo} id="whale-img" />
+                    <img src={logo} id="whale-img" alt=""/>
                     <p><em>"A simple coin tracker made for whales"</em></p>
                 </div>
 

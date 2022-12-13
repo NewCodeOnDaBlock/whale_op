@@ -121,7 +121,6 @@ const CryptoChart5 = ({ data }) => {
                         <button id="timeframe-btn">1yr</button>
                     </a>
                 </div>
-
             </div>
 
         </div>
